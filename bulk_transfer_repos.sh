@@ -18,12 +18,12 @@ Copyright 2019 J.D. Bean
 '
 
 function github_repo_transfer(){
-	owner="$1"
-	repo="$2"
-	new_owner="$3"
+	local user="$1"
+	local repo="$2"
+	local new_owner="$3"
 	# https://developer.github.com/v3/repos/#transfer-a-repository
   curl -L \
-  	-u "$owner:${GITHUB_SECRET}" \
+  	-u "$user:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
     -X POST "https://api.github.com/repos/$repo/transfer" \
@@ -32,16 +32,16 @@ function github_repo_transfer(){
 }
 
 function github_delete_collaborator(){
-	owner="$1"
-	repo="$2"
-	collaborator="$3"
+	local user="$1"
+	local repo="$2"
+	local collaborator="$3"
 	# https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
   curl -L \
-  	-u "$owner:${GITHUB_SECRET}" \
+  	-u "$user:${GITHUB_SECRET}" \
     -X DELETE "https://api.github.com/repos/$repo/collaborators/$collaborator"
 }
 
-owner="$1"
+user="$1"
 new_owner="$2"
 repos=$( cat ./repos.txt)
 collaborators=$( cat ./collaborators.txt)
