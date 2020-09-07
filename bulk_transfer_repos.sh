@@ -17,13 +17,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/
 Copyright 2019 J.D. Bean
 '
 
-function git_repo_transfer(){
+function github_repo_transfer(){
+	owner="$1"
+	repo="$2"
+	new_owner="$3"
+	# https://developer.github.com/v3/repos/#transfer-a-repository
   curl -L \
-  	-u "$2:${GITHUB_SECRET}" \
+  	-u "$owner:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
-    -X POST https://api.github.com/repos/$1/transfer \
-    -d '{"new_owner":"'$3'"}' \
+    -X POST "https://api.github.com/repos/$repo/transfer" \
+    -d '{"new_owner":"'"$new_owner"'"}' \
     | jq .
 }
 
@@ -37,6 +41,11 @@ function github_delete_collaborator(){
     -X DELETE "https://api.github.com/repos/$repo/collaborators/$collaborator"
 }
 
-repos=$( cat ./repos.txt) 
-for repo in $repos; do (git_repo_transfer "$repo" "$1" "$2"); done
+owner="$1"
+new_owner="$2"
+repos=$( cat ./repos.txt)
 
+for repo in $repos
+do
+	github_repo_transfer "$owner" "$repo" "$new_owner"
+done
