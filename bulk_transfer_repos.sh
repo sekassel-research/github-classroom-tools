@@ -50,7 +50,7 @@ for repo in $repos
 do
 	for collaborator in $collaborators
 	do
-		github_delete_collaborator "$owner" "$repo" "$collaborator"
+		github_delete_collaborator "$user" "$repo-$collaborator" "$collaborator"
+		github_repo_transfer "$user" "$repo-$collaborator" "$new_owner"
 	done
-	github_repo_transfer "$owner" "$repo" "$new_owner"
 done
