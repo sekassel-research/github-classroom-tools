@@ -18,14 +18,14 @@ Copyright 2019 J.D. Bean
 '
 
 function github_repo_transfer(){
-	local user="$1"
-	local repo="$2"
-	local new_owner="$3"
-	local url="https://api.github.com/repos/$repo/transfer"
-	echo -n $'\e[34mTRANSFER\e[0m' "$url: "
-	# https://developer.github.com/v3/repos/#transfer-a-repository
+  local user="$1"
+  local repo="$2"
+  local new_owner="$3"
+  local url="https://api.github.com/repos/$repo/transfer"
+  echo -n $'\e[34mTRANSFER\e[0m' "$url: "
+  # https://developer.github.com/v3/repos/#transfer-a-repository
   curl -sL \
-  	-u "$user:${GITHUB_SECRET}" \
+    -u "$user:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
     -X POST "$url" \
@@ -34,14 +34,14 @@ function github_repo_transfer(){
 }
 
 function github_delete_collaborator(){
-	local user="$1"
-	local repo="$2"
-	local collaborator="$3"
-	local url="https://api.github.com/repos/$repo/collaborators/$collaborator"
-	echo -n $'\e[31mDELETE\e[0m' "$url: "
-	# https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
+  local user="$1"
+  local repo="$2"
+  local collaborator="$3"
+  local url="https://api.github.com/repos/$repo/collaborators/$collaborator"
+  echo -n $'\e[31mDELETE\e[0m' "$url: "
+  # https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
   curl -sL \
-  	-u "$user:${GITHUB_SECRET}" \
+    -u "$user:${GITHUB_SECRET}" \
     -X DELETE "$url" \
     | jq '.message // "ok"'
 }
@@ -53,9 +53,9 @@ collaborators=$( cat ./collaborators.txt)
 
 for repo in $repos
 do
-	for collaborator in $collaborators
-	do
-		github_delete_collaborator "$user" "$repo-$collaborator" "$collaborator"
-		github_repo_transfer "$user" "$repo-$collaborator" "$new_owner"
-	done
+  for collaborator in $collaborators
+  do
+    github_delete_collaborator "$user" "$repo-$collaborator" "$collaborator"
+    github_repo_transfer "$user" "$repo-$collaborator" "$new_owner"
+  done
 done
