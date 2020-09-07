@@ -44,8 +44,13 @@ function github_delete_collaborator(){
 owner="$1"
 new_owner="$2"
 repos=$( cat ./repos.txt)
+collaborators=$( cat ./collaborators.txt)
 
 for repo in $repos
 do
+	for collaborator in $collaborators
+	do
+		github_delete_collaborator "$owner" "$repo" "$collaborator"
+	done
 	github_repo_transfer "$owner" "$repo" "$new_owner"
 done
