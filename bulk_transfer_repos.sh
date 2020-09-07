@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/
 Copyright 2019 J.D. Bean
 '
 
-function git_repo_transfer(){ 
+function git_repo_transfer(){
   curl -L \
   	-u "$2:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
@@ -25,6 +25,16 @@ function git_repo_transfer(){
     -X POST https://api.github.com/repos/$1/transfer \
     -d '{"new_owner":"'$3'"}' \
     | jq .
+}
+
+function github_delete_collaborator(){
+	owner="$1"
+	repo="$2"
+	collaborator="$3"
+	# https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
+  curl -L \
+  	-u "$owner:${GITHUB_SECRET}" \
+    -X DELETE "https://api.github.com/repos/$repo/collaborators/$collaborator"
 }
 
 repos=$( cat ./repos.txt) 
