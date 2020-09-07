@@ -21,11 +21,14 @@ function github_repo_transfer(){
   local user="$1"
   local repo="$2"
   local new_owner="$3"
+
   local url="https://api.github.com/repos/$repo/transfer"
+
   echo -n $'\e[34mTRANSFER\e[0m' "$url: "
+
   # https://developer.github.com/v3/repos/#transfer-a-repository
   curl -sL \
-    -u "$user:${GITHUB_SECRET}" \
+    -u "$user:$GITHUB_SECRET" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
     -X POST "$url" \
@@ -37,19 +40,22 @@ function github_delete_collaborator(){
   local user="$1"
   local repo="$2"
   local collaborator="$3"
+
   local url="https://api.github.com/repos/$repo/collaborators/$collaborator"
+
   echo -n $'\e[31mDELETE\e[0m' "$url: "
+
   # https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
   curl -sL \
-    -u "$user:${GITHUB_SECRET}" \
+    -u "$user:$GITHUB_SECRET" \
     -X DELETE "$url" \
     | jq '.message // "ok"'
 }
 
 user="$1"
 new_owner="$2"
-repos=$( cat ./repos.txt)
-students=$( cat ./students.txt)
+repos=$(cat ./repos.txt)
+students=$(cat ./students.txt)
 
 for repo in $repos
 do
