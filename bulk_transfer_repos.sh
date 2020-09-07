@@ -18,7 +18,7 @@ Copyright 2019 J.D. Bean
 '
 
 function git_repo_transfer(){ 
-  curl -vL \
+  curl -L \
   	-u "$2:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
