@@ -22,7 +22,7 @@ function github_repo_transfer(){
 	local repo="$2"
 	local new_owner="$3"
 	# https://developer.github.com/v3/repos/#transfer-a-repository
-  curl -L \
+  curl -sL \
   	-u "$user:${GITHUB_SECRET}" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
@@ -36,7 +36,7 @@ function github_delete_collaborator(){
 	local repo="$2"
 	local collaborator="$3"
 	# https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
-  curl -L \
+  curl -sL \
   	-u "$user:${GITHUB_SECRET}" \
     -X DELETE "https://api.github.com/repos/$repo/collaborators/$collaborator"
 }
