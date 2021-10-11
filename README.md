@@ -20,10 +20,25 @@ USE OF THIS SOFTWARE IS EXCLUSIVELY AT YOUR OWN RISK**
 2. Install `bash`, `curl`, & `jq` and any dependencies if you don't already have them installed.
 3. Create a GitHub Personal Access Token (Settings > Developer Settings > Personal Access Tokens).
 4. Create an environment variable called `GITHUB_SECRET` with the token you just created.
-5. Create a file named `repos.txt` next to the `bulk_transfer_repos.sh` script.
-6. Create a file named `students.txt` next to the `bulk_transfer_repos.sh` script.
+5. Create a file named `repos.txt` in this directory.
+6. Create a file named `students.txt` in this directory.
 
-## Usage
+## Bulk Rename
+
+1. Copy the list of GitHub usernames of your students into `students.txt`.
+   Example:
+
+   ```
+   alice
+   bob
+   charlie
+   ...
+   ```
+
+2. Execute the program with your username (`Username`), the old prefix including organization (`Org/OldPrefix`), and the new prefix (`NewPrefix`):
+   `bash bulk_rename_repos.sh Org/OldPrefix NewPrefix`
+
+## Bulk Transfer
 
 1. Copy the list of all of your assignments prefixes and paste them into `repos.txt`.
    Put each prefix on a new line and make sure to include the repo owner.
