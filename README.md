@@ -24,6 +24,16 @@ USE OF THIS SOFTWARE IS EXCLUSIVELY AT YOUR OWN RISK**
 5. Create a file named `repos.txt` in this directory.
 6. Create a file named `students.txt` in this directory.
 
+## Fetch Students
+
+1. Execute the program with your username (`Username`), the organization (`Org`), and the prefix (`prefix`).
+
+   ```shell
+   bash fetch_students.sh Username Org prefix
+   ```
+
+2. (Optional) To write the list of students to `students.txt` directly, add `> students.txt` to end of the command.
+
 ## Bulk Rename
 
 1. Copy the list of GitHub usernames of your students into `students.txt`.
