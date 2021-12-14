@@ -34,6 +34,14 @@ USE OF THIS SOFTWARE IS EXCLUSIVELY AT YOUR OWN RISK**
 
 2. (Optional) To write the list of students to `students.txt` directly, add `> students.txt` to end of the command.
 
+## Fetch Push Log (for a single repository)
+
+Execute the program with the organization (`Org`), the repository (`Repo`), and (optionally) the start date (`Date`).
+
+```shell
+bash fetch_push_dates.sh Org Repo Date
+```
+
 ## Bulk Rename
 
 1. Copy the list of GitHub usernames of your students into `students.txt`.
