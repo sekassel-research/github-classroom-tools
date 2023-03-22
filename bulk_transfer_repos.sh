@@ -28,7 +28,7 @@ function github_repo_transfer(){
 
   # https://developer.github.com/v3/repos/#transfer-a-repository
   curl -sL \
-    -u "$user:$GITHUB_SECRET" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
     -X POST "$url" \
@@ -37,9 +37,8 @@ function github_repo_transfer(){
 }
 
 function github_delete_collaborator(){
-  local user="$1"
-  local repo="$2"
-  local collaborator="$3"
+  local repo="$1"
+  local collaborator="$2"
 
   local url="https://api.github.com/repos/$repo/collaborators/$collaborator"
 
@@ -47,13 +46,12 @@ function github_delete_collaborator(){
 
   # https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
   curl -sL \
-    -u "$user:$GITHUB_SECRET" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
     -X DELETE "$url" \
     | jq '.message // "ok"'
 }
 
-user="$1"
-new_owner="$2"
+new_owner="$1"
 repos=$(cat ./repos.txt)
 students=$(cat ./students.txt)
 
@@ -61,7 +59,7 @@ for repo in $repos
 do
   for student in $students
   do
-    github_delete_collaborator "$user" "$repo-$student" "$student"
-    github_repo_transfer "$user" "$repo-$student" "$new_owner"
+    github_delete_collaborator "$repo-$student" "$student"
+    github_repo_transfer "$repo-$student" "$new_owner"
   done
 done

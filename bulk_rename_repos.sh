@@ -18,9 +18,8 @@ Copyright 2019 J.D. Bean
 '
 
 function github_repo_rename(){
-  local user="$1"
-  local repo="$2"
-  local new_name="$3"
+  local repo="$1"
+  local new_name="$2"
 
   local url="https://api.github.com/repos/$repo"
 
@@ -28,7 +27,7 @@ function github_repo_rename(){
 
   # https://docs.github.com/en/rest/reference/repos#update-a-repository
   curl -sL \
-    -u "$user:$GITHUB_SECRET" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -H "Accept: application/vnd.github.nightshade-preview+json" \
     -X PATCH "$url" \
@@ -36,12 +35,11 @@ function github_repo_rename(){
     | jq '.message // "ok"'
 }
 
-user="$1"
-old_name="$2"
-new_name="$3"
+old_name="$1"
+new_name="$2"
 students=$(cat ./students.txt)
 
 for student in $students
 do
-  github_repo_rename "$user" "$old_name-$student" "$new_name-$student"
+  github_repo_rename "$old_name-$student" "$new_name-$student"
 done
