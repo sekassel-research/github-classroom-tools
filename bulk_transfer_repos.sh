@@ -18,21 +18,21 @@ Copyright 2019 J.D. Bean
 '
 
 function github_repo_transfer(){
-  local user="$1"
-  local repo="$2"
-  local new_owner="$3"
+  local repo="$1"
+  local new_owner="$2"
 
   local url="https://api.github.com/repos/$repo/transfer"
 
   echo -n $'\e[34mTRANSFER\e[0m' "$url: "
 
   # https://developer.github.com/v3/repos/#transfer-a-repository
-  curl -sL \
+  curl -L \
+    -X POST \
+    -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/vnd.github.nightshade-preview+json" \
-    -X POST "$url" \
-    -d '{"new_owner":"'"$new_owner"'"}' \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    $url \
+    -d '{"new_owner":"'$new_owner'"}'
     | jq '.message // "ok"'
 }
 
@@ -45,9 +45,12 @@ function github_delete_collaborator(){
   echo -n $'\e[31mDELETE\e[0m' "$url: "
 
   # https://developer.github.com/v3/repos/collaborators/#remove-a-repository-collaborator
-  curl -sL \
+  curl -L \
+    -X DELETE \
+    -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer $GITHUB_TOKEN" \
-    -X DELETE "$url" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    $url
     | jq '.message // "ok"'
 }
 

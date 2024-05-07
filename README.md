@@ -26,10 +26,10 @@ USE OF THIS SOFTWARE IS EXCLUSIVELY AT YOUR OWN RISK**
 
 ## Fetch Students
 
-1. Execute the program with your username (`Username`), the organization (`Org`), and the prefix (`prefix`).
+1. Execute the program with the organization (`Org`), and the prefix (`prefix`).
 
    ```shell
-   bash fetch_students.sh Username Org prefix
+   bash fetch_students.sh Org prefix
    ```
 
 2. (Optional) To write the list of students to `students.txt` directly, add `> students.txt` to end of the command.
