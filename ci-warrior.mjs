@@ -7,10 +7,14 @@ const octokit = new MyOctokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
+const owner = process.argv[2];
+const repo = process.argv[3];
+const workflow_id = process.argv[4];
+console.log(`GET /repos/${owner}/${repo}/actions/workflows/${workflow_id}/runs`);
 const result = await octokit.paginate('GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs', {
-  owner: process.argv[2],
-  repo: process.argv[3],
-  workflow_id: process.argv[4],
+  owner,
+  repo,
+  workflow_id,
   per_page: 100,
 });
 
