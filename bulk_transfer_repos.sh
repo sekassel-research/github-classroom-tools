@@ -17,6 +17,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/
 Copyright 2019 J.D. Bean
 '
 
+# IMPORTANT: This script does not work if the repositories are forked from another one.
+
 function github_repo_transfer(){
   local repo="$1"
   local new_owner="$2"
@@ -31,8 +33,8 @@ function github_repo_transfer(){
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer $GITHUB_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
-    $url \
-    -d '{"new_owner":"'$new_owner'"}'
+    "$url" \
+    -d '{"new_owner":"'"$new_owner"'"}' \
     | jq '.message // "ok"'
 }
 
@@ -50,7 +52,7 @@ function github_delete_collaborator(){
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer $GITHUB_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
-    $url
+    "$url" \
     | jq '.message // "ok"'
 }
 
